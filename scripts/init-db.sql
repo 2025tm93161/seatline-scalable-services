@@ -1,0 +1,16 @@
+CREATE USER inventory_user WITH PASSWORD 'inventory_local';
+CREATE USER booking_user WITH PASSWORD 'booking_local';
+CREATE USER payment_user WITH PASSWORD 'payment_local';
+CREATE USER notification_user WITH PASSWORD 'notification_local';
+CREATE DATABASE inventory OWNER inventory_user;
+CREATE DATABASE booking OWNER booking_user;
+CREATE DATABASE payment OWNER payment_user;
+CREATE DATABASE notification OWNER notification_user;
+REVOKE CONNECT ON DATABASE inventory FROM PUBLIC;
+REVOKE CONNECT ON DATABASE booking FROM PUBLIC;
+REVOKE CONNECT ON DATABASE payment FROM PUBLIC;
+REVOKE CONNECT ON DATABASE notification FROM PUBLIC;
+GRANT CONNECT ON DATABASE inventory TO inventory_user;
+GRANT CONNECT ON DATABASE booking TO booking_user;
+GRANT CONNECT ON DATABASE payment TO payment_user;
+GRANT CONNECT ON DATABASE notification TO notification_user;
