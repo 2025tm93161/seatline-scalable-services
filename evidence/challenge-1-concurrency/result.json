@@ -1,0 +1,205 @@
+{
+  "timestamp": "2026-10-22T18:13:16.732092+00:00",
+  "command": "python scripts/challenges.py concurrency",
+  "claim": "Exactly 5 of 20 parallel requests succeed",
+  "event_id": "evidence-da5f63d6-be61-408f-90b6-c28cf12a0a89",
+  "responses": [
+    {
+      "status": 409,
+      "body": {
+        "error": {
+          "code": "INSUFFICIENT_CAPACITY",
+          "message": "Event unavailable or insufficient seats"
+        }
+      },
+      "replayed": "false"
+    },
+    {
+      "status": 201,
+      "body": {
+        "id": "d8a6954d-6650-4c03-85c6-9360e6b67a1c",
+        "amount_cents": 2500
+      },
+      "replayed": "false"
+    },
+    {
+      "status": 409,
+      "body": {
+        "error": {
+          "code": "INSUFFICIENT_CAPACITY",
+          "message": "Event unavailable or insufficient seats"
+        }
+      },
+      "replayed": "false"
+    },
+    {
+      "status": 409,
+      "body": {
+        "error": {
+          "code": "INSUFFICIENT_CAPACITY",
+          "message": "Event unavailable or insufficient seats"
+        }
+      },
+      "replayed": "false"
+    },
+    {
+      "status": 201,
+      "body": {
+        "id": "e0fcefcd-b70b-4edf-abf8-e154594b32b4",
+        "amount_cents": 2500
+      },
+      "replayed": "false"
+    },
+    {
+      "status": 201,
+      "body": {
+        "id": "760cb157-acda-49ff-a15e-36bee7c1aa5f",
+        "amount_cents": 2500
+      },
+      "replayed": "false"
+    },
+    {
+      "status": 409,
+      "body": {
+        "error": {
+          "code": "INSUFFICIENT_CAPACITY",
+          "message": "Event unavailable or insufficient seats"
+        }
+      },
+      "replayed": "false"
+    },
+    {
+      "status": 409,
+      "body": {
+        "error": {
+          "code": "INSUFFICIENT_CAPACITY",
+          "message": "Event unavailable or insufficient seats"
+        }
+      },
+      "replayed": "false"
+    },
+    {
+      "status": 409,
+      "body": {
+        "error": {
+          "code": "INSUFFICIENT_CAPACITY",
+          "message": "Event unavailable or insufficient seats"
+        }
+      },
+      "replayed": "false"
+    },
+    {
+      "status": 409,
+      "body": {
+        "error": {
+          "code": "INSUFFICIENT_CAPACITY",
+          "message": "Event unavailable or insufficient seats"
+        }
+      },
+      "replayed": "false"
+    },
+    {
+      "status": 409,
+      "body": {
+        "error": {
+          "code": "INSUFFICIENT_CAPACITY",
+          "message": "Event unavailable or insufficient seats"
+        }
+      },
+      "replayed": "false"
+    },
+    {
+      "status": 201,
+      "body": {
+        "id": "21442a2d-15ec-4851-bf8e-2824379319b6",
+        "amount_cents": 2500
+      },
+      "replayed": "false"
+    },
+    {
+      "status": 409,
+      "body": {
+        "error": {
+          "code": "INSUFFICIENT_CAPACITY",
+          "message": "Event unavailable or insufficient seats"
+        }
+      },
+      "replayed": "false"
+    },
+    {
+      "status": 409,
+      "body": {
+        "error": {
+          "code": "INSUFFICIENT_CAPACITY",
+          "message": "Event unavailable or insufficient seats"
+        }
+      },
+      "replayed": "false"
+    },
+    {
+      "status": 409,
+      "body": {
+        "error": {
+          "code": "INSUFFICIENT_CAPACITY",
+          "message": "Event unavailable or insufficient seats"
+        }
+      },
+      "replayed": "false"
+    },
+    {
+      "status": 409,
+      "body": {
+        "error": {
+          "code": "INSUFFICIENT_CAPACITY",
+          "message": "Event unavailable or insufficient seats"
+        }
+      },
+      "replayed": "false"
+    },
+    {
+      "status": 409,
+      "body": {
+        "error": {
+          "code": "INSUFFICIENT_CAPACITY",
+          "message": "Event unavailable or insufficient seats"
+        }
+      },
+      "replayed": "false"
+    },
+    {
+      "status": 409,
+      "body": {
+        "error": {
+          "code": "INSUFFICIENT_CAPACITY",
+          "message": "Event unavailable or insufficient seats"
+        }
+      },
+      "replayed": "false"
+    },
+    {
+      "status": 201,
+      "body": {
+        "id": "e18d507e-fcbc-4e21-b39c-22b3de34b238",
+        "amount_cents": 2500
+      },
+      "replayed": "false"
+    },
+    {
+      "status": 409,
+      "body": {
+        "error": {
+          "code": "INSUFFICIENT_CAPACITY",
+          "message": "Event unavailable or insufficient seats"
+        }
+      },
+      "replayed": "false"
+    }
+  ],
+  "final_inventory": {
+    "id": "evidence-da5f63d6-be61-408f-90b6-c28cf12a0a89",
+    "name": "Challenge fixture",
+    "capacity": 5,
+    "available": 0,
+    "price_cents": 2500
+  }
+}
