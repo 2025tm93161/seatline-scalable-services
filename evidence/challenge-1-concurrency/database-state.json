@@ -1,0 +1,60 @@
+{
+  "timestamp": "2026-10-22T18:14:33.332993+00:00",
+  "command": "python scripts/export_artifacts.py",
+  "event_id": "evidence-da5f63d6-be61-408f-90b6-c28cf12a0a89",
+  "databases": {
+    "inventory": {
+      "events": [
+        {
+          "id": "evidence-da5f63d6-be61-408f-90b6-c28cf12a0a89",
+          "name": "Challenge fixture",
+          "capacity": 5,
+          "available": 0,
+          "price_cents": 2500
+        }
+      ],
+      "holds": [
+        {
+          "id": "21442a2d-15ec-4851-bf8e-2824379319b6",
+          "event_id": "evidence-da5f63d6-be61-408f-90b6-c28cf12a0a89",
+          "quantity": 1,
+          "state": "RESERVED"
+        },
+        {
+          "id": "d8a6954d-6650-4c03-85c6-9360e6b67a1c",
+          "event_id": "evidence-da5f63d6-be61-408f-90b6-c28cf12a0a89",
+          "quantity": 1,
+          "state": "RESERVED"
+        },
+        {
+          "id": "760cb157-acda-49ff-a15e-36bee7c1aa5f",
+          "event_id": "evidence-da5f63d6-be61-408f-90b6-c28cf12a0a89",
+          "quantity": 1,
+          "state": "RESERVED"
+        },
+        {
+          "id": "e18d507e-fcbc-4e21-b39c-22b3de34b238",
+          "event_id": "evidence-da5f63d6-be61-408f-90b6-c28cf12a0a89",
+          "quantity": 1,
+          "state": "RESERVED"
+        },
+        {
+          "id": "e0fcefcd-b70b-4edf-abf8-e154594b32b4",
+          "event_id": "evidence-da5f63d6-be61-408f-90b6-c28cf12a0a89",
+          "quantity": 1,
+          "state": "RESERVED"
+        }
+      ]
+    },
+    "booking": {
+      "bookings": [],
+      "idempotency": []
+    },
+    "payment": {
+      "payments": []
+    },
+    "notification": {
+      "deliveries": []
+    }
+  }
+}
