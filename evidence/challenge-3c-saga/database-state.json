@@ -1,0 +1,57 @@
+{
+  "timestamp": "2026-10-22T18:14:33.021930+00:00",
+  "command": "python scripts/export_artifacts.py",
+  "event_id": "evidence-ec10a08f-8570-4ad0-985d-4eb111c228a2",
+  "databases": {
+    "inventory": {
+      "events": [
+        {
+          "id": "evidence-ec10a08f-8570-4ad0-985d-4eb111c228a2",
+          "name": "Challenge fixture",
+          "capacity": 1,
+          "available": 1,
+          "price_cents": 2500
+        }
+      ],
+      "holds": [
+        {
+          "id": "d22fcb85-8bce-50a1-8081-ef5afcc66b52",
+          "event_id": "evidence-ec10a08f-8570-4ad0-985d-4eb111c228a2",
+          "quantity": 1,
+          "state": "RELEASED"
+        }
+      ]
+    },
+    "booking": {
+      "bookings": [
+        {
+          "id": "d22fcb85-8bce-50a1-8081-ef5afcc66b52",
+          "payload": "{\"event_id\": \"evidence-ec10a08f-8570-4ad0-985d-4eb111c228a2\", \"quantity\": 1, \"recipient\": \"student@example.test\", \"decline_payment\": false, \"fail_notification\": true, \"payment_delay_ms\": 0}",
+          "state": "CANCELLED",
+          "amount_cents": 2500,
+          "reason": "Saga compensated; payment reversed and seats released"
+        }
+      ],
+      "idempotency": [
+        {
+          "key": "/api/v1/bookings:d35f54e1-859c-4d57-8cdf-eeeec9d3ccc3",
+          "fingerprint": "20418f1b821583b5dfeff0e16b30588be26a08137ff0fccc08a959b62cb12ff9",
+          "status": 409,
+          "response": "{\"id\": \"d22fcb85-8bce-50a1-8081-ef5afcc66b52\", \"state\": \"CANCELLED\", \"amount_cents\": 2500, \"reason\": \"Saga compensated; payment reversed and seats released\", \"error\": {\"code\": \"BOOKING_CANCELLED\", \"message\": \"Saga compensated; payment reversed and seats released\"}}"
+        }
+      ]
+    },
+    "payment": {
+      "payments": [
+        {
+          "booking_id": "d22fcb85-8bce-50a1-8081-ef5afcc66b52",
+          "amount_cents": 2500,
+          "state": "REFUNDED"
+        }
+      ]
+    },
+    "notification": {
+      "deliveries": []
+    }
+  }
+}

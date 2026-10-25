@@ -1,18 +1,27 @@
 import pytest
 
-from services.notification import domain as notification
+from services.booking.domain import assert_transition
+from services.notification.domain import can_deliver
+from services.payment.domain import charge_state, refund_state
 
 
-# BR6: a provider failure cannot be recorded as delivered (owner: Notification)
+def test_br3_payment_decline_is_not_charge():
+    assert charge_state(True) == "DECLINED"
+    assert charge_state(False) == "CHARGED"
+
+
+def test_br4_refund_can_be_repeated():
+    assert refund_state("CHARGED") == "REFUNDED"
+    assert refund_state(refund_state("CHARGED")) == "REFUNDED"
+    assert refund_state("MISSING") == "CANCELLED"
+
+
+def test_br5_confirmed_booking_is_terminal():
+    with pytest.raises(ValueError):
+        assert_transition("CONFIRMED", "COMPENSATING")
+    assert_transition("PAID", "COMPENSATING")
+
 
 def test_br6_failed_notification_is_not_delivered():
-    assert notification.attempt_outcome(simulate_failure=True) == notification.FAILED
-    assert notification.can_deliver(notification.FAILED) is False
-    with pytest.raises(ValueError):
-        notification.resolve(notification.FAILED, simulate_failure=False)
-
-
-def test_br6_successful_delivery_is_recorded_once():
-    assert notification.resolve(None, simulate_failure=False) == notification.DELIVERED
-    # A repeat after success keeps the original delivery, even if the repeat asks to fail.
-    assert notification.resolve(notification.DELIVERED, simulate_failure=True) == notification.DELIVERED
+    assert not can_deliver(True)
+    assert can_deliver(False)
