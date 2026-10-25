@@ -1,0 +1,55 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_PASSWORD: local-admin-only
+    ports: ["${DB_PORT:-55432}:5432"]
+    volumes:
+      - seatline-db:/var/lib/postgresql/data
+      - ./scripts/init-db.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+  inventory:
+    build:
+      context: .
+      args: {SERVICE: inventory}
+    environment:
+      DATABASE_URL: postgresql+psycopg://inventory_user:inventory_local@postgres/inventory
+    ports: ["${INVENTORY_PORT:-8001}:8000"]
+    depends_on:
+      postgres: {condition: service_healthy}
+  payment:
+    build:
+      context: .
+      args: {SERVICE: payment}
+    environment:
+      DATABASE_URL: postgresql+psycopg://payment_user:payment_local@postgres/payment
+    ports: ["${PAYMENT_PORT:-8002}:8000"]
+    depends_on:
+      postgres: {condition: service_healthy}
+  notification:
+    build:
+      context: .
+      args: {SERVICE: notification}
+    environment:
+      DATABASE_URL: postgresql+psycopg://notification_user:notification_local@postgres/notification
+    ports: ["${NOTIFICATION_PORT:-8003}:8000"]
+    depends_on:
+      postgres: {condition: service_healthy}
+  booking:
+    build:
+      context: .
+      args: {SERVICE: booking}
+    environment:
+      DATABASE_URL: postgresql+psycopg://booking_user:booking_local@postgres/booking
+      INVENTORY_URL: http://inventory:8000
+      PAYMENT_URL: http://payment:8000
+      NOTIFICATION_URL: http://notification:8000
+      HTTP_TIMEOUT_SECONDS: "3"
+    ports: ["${BOOKING_PORT:-8000}:8000"]
+    depends_on: [inventory, payment, notification]
+volumes:
+  seatline-db:
