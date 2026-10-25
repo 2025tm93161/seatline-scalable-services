@@ -23,5 +23,5 @@ def test_br5_confirmed_booking_is_terminal():
 
 
 def test_br6_failed_notification_is_not_delivered():
-    assert not can_deliver(True)
-    assert can_deliver(False)
+    assert not can_deliver("FAILED")
+    assert can_deliver("DELIVERED")
