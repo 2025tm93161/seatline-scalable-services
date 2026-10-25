@@ -29,7 +29,7 @@ def main():
         for service, default_port in SERVICES.items():
             port = os.environ.get(f"{service.upper()}_PORT", str(default_port))
             environment = dict(os.environ)
-            environment["DATABASE_URL"] = os.environ.get(f"{service.upper()}_DATABASE_URL", f"postgresql+psycopg://{service}_user:{service}_local@localhost:{os.environ.get('DB_PORT', '55432')}/{service}")
+            environment["DATABASE_URL"] = os.environ.get(f"{service.upper()}_DATABASE_URL", f"postgresql+psycopg://{service}_user:{service}_local@127.0.0.1:{os.environ.get('DB_PORT', '55432')}/{service}")
             environment["FRONTEND_DIR"] = str(ROOT / "frontend")
             for dependency in ("inventory", "payment", "notification"):
                 environment[f"{dependency.upper()}_URL"] = os.environ.get(f"{dependency.upper()}_URL", f"http://127.0.0.1:{os.environ.get(dependency.upper() + '_PORT', str(SERVICES[dependency]))}")
