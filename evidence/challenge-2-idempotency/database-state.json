@@ -1,0 +1,63 @@
+{
+  "timestamp": "2026-10-22T18:14:33.175969+00:00",
+  "command": "python scripts/export_artifacts.py",
+  "event_id": "evidence-20f6a5fa-3295-4657-a12b-2e17a43edcd1",
+  "databases": {
+    "inventory": {
+      "events": [
+        {
+          "id": "evidence-20f6a5fa-3295-4657-a12b-2e17a43edcd1",
+          "name": "Challenge fixture",
+          "capacity": 5,
+          "available": 4,
+          "price_cents": 2500
+        }
+      ],
+      "holds": [
+        {
+          "id": "2ca916eb-3818-5941-af9c-270327d98f75",
+          "event_id": "evidence-20f6a5fa-3295-4657-a12b-2e17a43edcd1",
+          "quantity": 1,
+          "state": "RESERVED"
+        }
+      ]
+    },
+    "booking": {
+      "bookings": [
+        {
+          "id": "2ca916eb-3818-5941-af9c-270327d98f75",
+          "payload": "{\"event_id\": \"evidence-20f6a5fa-3295-4657-a12b-2e17a43edcd1\", \"quantity\": 1, \"recipient\": \"student@example.test\", \"decline_payment\": false, \"fail_notification\": false, \"payment_delay_ms\": 0}",
+          "state": "CONFIRMED",
+          "amount_cents": 2500,
+          "reason": ""
+        }
+      ],
+      "idempotency": [
+        {
+          "key": "/api/v1/bookings:54da9556-b498-4b91-9803-4ac7b83bfbf8",
+          "fingerprint": "029ebcb87ff976c3a6e770900cd9887531407a20e74024f2352f9f4df64c6322",
+          "status": 201,
+          "response": "{\"id\": \"2ca916eb-3818-5941-af9c-270327d98f75\", \"state\": \"CONFIRMED\", \"amount_cents\": 2500, \"reason\": \"\"}"
+        }
+      ]
+    },
+    "payment": {
+      "payments": [
+        {
+          "booking_id": "2ca916eb-3818-5941-af9c-270327d98f75",
+          "amount_cents": 2500,
+          "state": "CHARGED"
+        }
+      ]
+    },
+    "notification": {
+      "deliveries": [
+        {
+          "booking_id": "2ca916eb-3818-5941-af9c-270327d98f75",
+          "recipient": "student@example.test",
+          "state": "DELIVERED"
+        }
+      ]
+    }
+  }
+}

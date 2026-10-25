@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Seatline | Reservations</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <header class="topbar"><a class="brand" href="/">seatline<span class="brand-mark">/</span></a><span class="workspace">Reservations workspace</span><a href="/docs" target="_blank" rel="noopener">API reference <span aria-hidden="true">↗</span></a></header>
+  <main>
+    <div class="page-heading"><div><p class="eyebrow">BOX OFFICE / LIVE INVENTORY</p><h1>A place for your next plan.</h1></div><div class="connection"><span id="status-dot"></span><span id="connection-label">Connecting</span></div></div>
+    <div class="workspace-grid">
+      <section class="event-section" aria-labelledby="events-heading">
+        <div class="section-heading"><h2 id="events-heading">Upcoming sessions</h2><button id="refresh" type="button">Refresh</button></div>
+        <div id="events" class="events" aria-live="polite"></div>
+        <section class="capacity-section"><div class="section-heading"><h2>Seat availability</h2><span id="seat-total" class="muted"></span></div><div id="seat-map" class="seat-map" aria-label="Aggregate seat availability, not assigned seating"></div><div class="legend"><span><i class="available"></i>Available</span><span><i class="taken"></i>Reserved</span><span class="muted">General admission</span></div></section>
+      </section>
+      <aside class="reservation-section"><p class="eyebrow">NEW RESERVATION</p><h2 id="selected-name">Select a session</h2><form id="booking-form"><label for="quantity">Guests</label><div class="stepper"><button id="decrease" type="button" aria-label="Decrease guests">−</button><input id="quantity" type="number" min="1" max="10" value="1" required><button id="increase" type="button" aria-label="Increase guests">+</button></div><label for="recipient">Contact email</label><input id="recipient" type="email" value="student@example.test" required maxlength="160"><div class="total"><span>Total</span><strong id="total">₹0.00</strong></div><details><summary>Simulation settings</summary><label class="check"><input id="decline" type="checkbox">Decline payment</label><label class="check"><input id="fail" type="checkbox">Fail notification</label><label for="request-key">Idempotency key</label><div class="key-row"><input id="request-key" maxlength="128" required><button id="new-key" type="button" title="Generate a new idempotency key">New</button></div></details><button class="primary" id="submit" type="submit">Reserve seats <span aria-hidden="true">→</span></button></form><div id="result" role="status" aria-live="polite"></div></aside>
+    </div>
+    <section class="activity"><div class="section-heading"><div><p class="eyebrow">TRANSACTION LEDGER</p><h2>Recent reservations</h2></div><span id="booking-count" class="muted"></span></div><div class="table-wrap"><table><thead><tr><th>Booking reference</th><th>State</th><th>Amount</th><th>Details</th><th>Action</th></tr></thead><tbody id="bookings"></tbody></table></div></section>
+    <footer><span>SEATLINE / SCALABLE SERVICES</span><span>Inventory · Booking · Payment · Notification</span></footer>
+  </main>
+</body>
+</html>

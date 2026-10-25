@@ -1,0 +1,65 @@
+{
+  "timestamp": "2026-10-22T18:13:16.910390+00:00",
+  "command": "python scripts/challenges.py idempotency",
+  "claim": "Concurrent and sequential replay produce one booking, hold and charge; changed payload rejected",
+  "event_id": "evidence-20f6a5fa-3295-4657-a12b-2e17a43edcd1",
+  "key": "54da9556-b498-4b91-9803-4ac7b83bfbf8",
+  "simultaneous": [
+    {
+      "status": 201,
+      "body": {
+        "id": "2ca916eb-3818-5941-af9c-270327d98f75",
+        "state": "CONFIRMED",
+        "amount_cents": 2500,
+        "reason": ""
+      },
+      "replayed": "true"
+    },
+    {
+      "status": 201,
+      "body": {
+        "id": "2ca916eb-3818-5941-af9c-270327d98f75",
+        "state": "CONFIRMED",
+        "amount_cents": 2500,
+        "reason": ""
+      },
+      "replayed": "false"
+    }
+  ],
+  "repeated": {
+    "status": 201,
+    "body": {
+      "id": "2ca916eb-3818-5941-af9c-270327d98f75",
+      "state": "CONFIRMED",
+      "amount_cents": 2500,
+      "reason": ""
+    },
+    "replayed": "true"
+  },
+  "conflict": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "IDEMPOTENCY_CONFLICT",
+        "message": "Key already used with a different payload"
+      }
+    },
+    "replayed": "false"
+  },
+  "payment": {
+    "status": 200,
+    "body": {
+      "booking_id": "2ca916eb-3818-5941-af9c-270327d98f75",
+      "amount_cents": 2500,
+      "state": "CHARGED"
+    },
+    "replayed": "false"
+  },
+  "final_inventory": {
+    "id": "evidence-20f6a5fa-3295-4657-a12b-2e17a43edcd1",
+    "name": "Challenge fixture",
+    "capacity": 5,
+    "available": 4,
+    "price_cents": 2500
+  }
+}
