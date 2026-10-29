@@ -1,0 +1,159 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inventory
+  namespace: seatline
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {app: inventory}
+  template:
+    metadata:
+      labels: {app: inventory}
+    spec:
+      containers:
+        - name: inventory
+          image: seatline-inventory:assignment2
+          imagePullPolicy: IfNotPresent
+          ports: [{containerPort: 8000}]
+          env:
+            - name: DATABASE_URL
+              valueFrom: {secretKeyRef: {name: seatline-secrets, key: INVENTORY_DATABASE_URL}}
+          readinessProbe:
+            httpGet: {path: /health, port: 8000}
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          livenessProbe:
+            httpGet: {path: /health, port: 8000}
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          resources:
+            requests: {cpu: 50m, memory: 64Mi}
+            limits: {cpu: 300m, memory: 256Mi}
+---
+apiVersion: v1
+kind: Service
+metadata: {name: inventory, namespace: seatline}
+spec:
+  type: NodePort
+  selector: {app: inventory}
+  ports: [{port: 8000, targetPort: 8000, nodePort: 30081}]
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: payment, namespace: seatline}
+spec:
+  replicas: 1
+  selector: {matchLabels: {app: payment}}
+  template:
+    metadata: {labels: {app: payment}}
+    spec:
+      containers:
+        - name: payment
+          image: seatline-payment:assignment2
+          imagePullPolicy: IfNotPresent
+          ports: [{containerPort: 8000}]
+          env:
+            - name: DATABASE_URL
+              valueFrom: {secretKeyRef: {name: seatline-secrets, key: PAYMENT_DATABASE_URL}}
+          readinessProbe:
+            httpGet: {path: /health, port: 8000}
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          livenessProbe:
+            httpGet: {path: /health, port: 8000}
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          resources:
+            requests: {cpu: 50m, memory: 64Mi}
+            limits: {cpu: 300m, memory: 256Mi}
+---
+apiVersion: v1
+kind: Service
+metadata: {name: payment, namespace: seatline}
+spec:
+  type: NodePort
+  selector: {app: payment}
+  ports: [{port: 8000, targetPort: 8000, nodePort: 30082}]
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: notification, namespace: seatline}
+spec:
+  replicas: 1
+  selector: {matchLabels: {app: notification}}
+  template:
+    metadata: {labels: {app: notification}}
+    spec:
+      containers:
+        - name: notification
+          image: seatline-notification:assignment2
+          imagePullPolicy: IfNotPresent
+          ports: [{containerPort: 8000}]
+          env:
+            - name: DATABASE_URL
+              valueFrom: {secretKeyRef: {name: seatline-secrets, key: NOTIFICATION_DATABASE_URL}}
+          readinessProbe:
+            httpGet: {path: /health, port: 8000}
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          livenessProbe:
+            httpGet: {path: /health, port: 8000}
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          resources:
+            requests: {cpu: 50m, memory: 64Mi}
+            limits: {cpu: 300m, memory: 256Mi}
+---
+apiVersion: v1
+kind: Service
+metadata: {name: notification, namespace: seatline}
+spec:
+  type: NodePort
+  selector: {app: notification}
+  ports: [{port: 8000, targetPort: 8000, nodePort: 30083}]
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: booking, namespace: seatline}
+spec:
+  replicas: 2
+  selector: {matchLabels: {app: booking}}
+  template:
+    metadata: {labels: {app: booking}}
+    spec:
+      containers:
+        - name: booking
+          image: seatline-booking:assignment2
+          imagePullPolicy: IfNotPresent
+          ports: [{containerPort: 8000}]
+          env:
+            - name: DATABASE_URL
+              valueFrom: {secretKeyRef: {name: seatline-secrets, key: BOOKING_DATABASE_URL}}
+            - name: INVENTORY_URL
+              valueFrom: {configMapKeyRef: {name: seatline-config, key: INVENTORY_URL}}
+            - name: PAYMENT_URL
+              valueFrom: {configMapKeyRef: {name: seatline-config, key: PAYMENT_URL}}
+            - name: NOTIFICATION_URL
+              valueFrom: {configMapKeyRef: {name: seatline-config, key: NOTIFICATION_URL}}
+            - name: HTTP_TIMEOUT_SECONDS
+              valueFrom: {configMapKeyRef: {name: seatline-config, key: HTTP_TIMEOUT_SECONDS}}
+          readinessProbe:
+            httpGet: {path: /health, port: 8000}
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          livenessProbe:
+            httpGet: {path: /health, port: 8000}
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          resources:
+            requests: {cpu: 50m, memory: 64Mi}
+            limits: {cpu: 300m, memory: 256Mi}
+---
+apiVersion: v1
+kind: Service
+metadata: {name: booking, namespace: seatline}
+spec:
+  type: NodePort
+  selector: {app: booking}
+  ports: [{port: 8000, targetPort: 8000, nodePort: 30080}]
