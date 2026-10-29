@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: seatline-config
+  namespace: seatline
+data:
+  HTTP_TIMEOUT_SECONDS: "3"
+  INVENTORY_URL: "http://inventory:8000"
+  PAYMENT_URL: "http://payment:8000"
+  NOTIFICATION_URL: "http://notification:8000"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-init
+  namespace: seatline
+data:
+  init-db.sh: |
+    #!/bin/sh
+    set -eu
+    create_service_db() {
+      service="$1"
+      user="$2"
+      password="$3"
+      db="$4"
+      psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname postgres \
+        --set=service_user="$user" --set=service_password="$password" --set=service_db="$db" <<'SQL'
+    SELECT format('CREATE ROLE %I LOGIN PASSWORD %L', :'service_user', :'service_password')
+    WHERE NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = :'service_user') \gexec
+    SELECT format('CREATE DATABASE %I OWNER %I', :'service_db', :'service_user')
+    WHERE NOT EXISTS (SELECT 1 FROM pg_database WHERE datname = :'service_db') \gexec
+    SQL
+    }
+    create_service_db inventory "$INVENTORY_DB_USER" "$INVENTORY_DB_PASSWORD" inventory
+    create_service_db payment "$PAYMENT_DB_USER" "$PAYMENT_DB_PASSWORD" payment
+    create_service_db notification "$NOTIFICATION_DB_USER" "$NOTIFICATION_DB_PASSWORD" notification
+    create_service_db booking "$BOOKING_DB_USER" "$BOOKING_DB_PASSWORD" booking
