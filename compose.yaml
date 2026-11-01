@@ -14,9 +14,10 @@ services:
       retries: 20
     restart: unless-stopped
   inventory:
+    image: seatline-inventory:assignment2
     build:
       context: .
-      args: {SERVICE: inventory}
+      dockerfile: services/inventory/Dockerfile
     environment:
       DATABASE_URL: postgresql+psycopg://inventory_user:inventory_local@postgres/inventory
     ports: ["${INVENTORY_PORT:-8001}:8000"]
@@ -30,9 +31,10 @@ services:
       start_period: 10s
     restart: unless-stopped
   payment:
+    image: seatline-payment:assignment2
     build:
       context: .
-      args: {SERVICE: payment}
+      dockerfile: services/payment/Dockerfile
     environment:
       DATABASE_URL: postgresql+psycopg://payment_user:payment_local@postgres/payment
     ports: ["${PAYMENT_PORT:-8002}:8000"]
@@ -46,9 +48,10 @@ services:
       start_period: 10s
     restart: unless-stopped
   notification:
+    image: seatline-notification:assignment2
     build:
       context: .
-      args: {SERVICE: notification}
+      dockerfile: services/notification/Dockerfile
     environment:
       DATABASE_URL: postgresql+psycopg://notification_user:notification_local@postgres/notification
     ports: ["${NOTIFICATION_PORT:-8003}:8000"]
@@ -62,9 +65,10 @@ services:
       start_period: 10s
     restart: unless-stopped
   booking:
+    image: seatline-booking:assignment2
     build:
       context: .
-      args: {SERVICE: booking}
+      dockerfile: services/booking/Dockerfile
     environment:
       DATABASE_URL: postgresql+psycopg://booking_user:booking_local@postgres/booking
       INVENTORY_URL: http://inventory:8000
