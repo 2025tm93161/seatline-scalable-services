@@ -12,6 +12,7 @@ services:
       interval: 3s
       timeout: 3s
       retries: 20
+    restart: unless-stopped
   inventory:
     build:
       context: .
@@ -21,6 +22,13 @@ services:
     ports: ["${INVENTORY_PORT:-8001}:8000"]
     depends_on:
       postgres: {condition: service_healthy}
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health', timeout=2)"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+      start_period: 10s
+    restart: unless-stopped
   payment:
     build:
       context: .
@@ -30,6 +38,13 @@ services:
     ports: ["${PAYMENT_PORT:-8002}:8000"]
     depends_on:
       postgres: {condition: service_healthy}
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health', timeout=2)"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+      start_period: 10s
+    restart: unless-stopped
   notification:
     build:
       context: .
@@ -39,6 +54,13 @@ services:
     ports: ["${NOTIFICATION_PORT:-8003}:8000"]
     depends_on:
       postgres: {condition: service_healthy}
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health', timeout=2)"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+      start_period: 10s
+    restart: unless-stopped
   booking:
     build:
       context: .
@@ -50,6 +72,16 @@ services:
       NOTIFICATION_URL: http://notification:8000
       HTTP_TIMEOUT_SECONDS: "3"
     ports: ["${BOOKING_PORT:-8000}:8000"]
-    depends_on: [inventory, payment, notification]
+    depends_on:
+      inventory: {condition: service_healthy}
+      payment: {condition: service_healthy}
+      notification: {condition: service_healthy}
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health', timeout=2)"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+      start_period: 10s
+    restart: unless-stopped
 volumes:
   seatline-db:

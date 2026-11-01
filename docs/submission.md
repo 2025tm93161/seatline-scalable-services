@@ -17,7 +17,7 @@ Coordinator: Omkar. Each member edits only their own rows and reflection, in the
 | Angshuman | 2025TM93161 | Booking (:8000) | Saga orchestration, state machine, recovery |
 | Siva Aravindan | _TODO_ | Inventory (:8001) | Challenge 1: concurrency, atomic conditional update |
 | Susheel Kumaraswamy S | 2025TM93096 | Payment (:8002) | Challenge 2: idempotency, request fingerprinting |
-| Bandgar Omkar Sudhakar Sheetal | _TODO_ | Notification (:8003) | Challenge 3C: step-3 failure injection, saga evidence |
+| Bandgar Omkar Sudhakar Sheetal | 2025TM93075 | Notification (:8003) | Challenge 3C: step-3 failure injection, saga evidence |
 
 ## Contribution table
 
@@ -54,7 +54,25 @@ _TODO_
 _TODO_
 
 ### Omkar
-_TODO_
+I built the Notification Service: a mock delivery provider with its own `notification`
+database, a `POST /api/v1/deliveries` endpoint protected by an `Idempotency-Key`, and a
+`simulate_failure` switch that Booking uses as saga step 3. Because Notification is the
+last step, it is the dependency we use to prove compensation: when it fails, Payment
+refunds and Inventory releases the hold.
+
+The hard problem was BR6, making a provider failure final. A failure is meaningful to the
+saga only if Notification and Booking agree on it. If a retry could later turn a FAILED
+delivery into DELIVERED, a customer would be told their booking was confirmed after we had
+already refunded them and released their seats. I solved this in three layers. The
+domain rule `can_deliver` rejects the transition. The FAILED row is written before the 502
+is returned, so the record exists before Booking starts compensating. A PostgreSQL trigger
+blocks the transition even for a direct UPDATE. A per-booking advisory lock plus the
+shared idempotency layer stop concurrent retries from racing to insert two outcomes.
+
+What I would change: notification is called synchronously over REST, so a slow provider
+holds up the booking. In production I would publish a `BookingConfirmed` event through a
+transactional outbox and let Notification consume it asynchronously, with bounded retries
+and a dead-letter queue, keeping the saga to the steps that truly need to be reversed.
 
 ## AI assistance declaration
 
@@ -66,7 +84,7 @@ which tools were used and for what, and confirms they can explain every mechanis
 | Angshuman | _TODO_ |
 | Siva Aravindan | _TODO_ |
 | Susheel Kumaraswamy S | _TODO_ |
-| Omkar | _TODO_ |
+| Omkar | Claude (Anthropic) assisted with planning the team split, demo speaking points, a pre-submission review of `main`, the Compose health-check/restart change, and drafting my reflection. I designed and wrote the Notification Service, BR6 enforcement and its tests, reviewed every AI-suggested change, and can explain each mechanism. |
 
 ## Demo video outline (8-10 minutes)
 
