@@ -51,7 +51,11 @@ _TODO_
 _TODO_
 
 ### Susheel Kumaraswamy S
-_TODO_
+I built the Payment Service's charge, refund, and lookup endpoints, with PostgreSQL persistence and domain rules that keep declined payments uncharged and make compensation safe: refunds of charged payments become REFUNDED, while an attempt to charge after cancellation is rejected. I also implemented the shared idempotency support used by the booking flow: keys are scoped to an endpoint, request bodies receive a canonical SHA-256 fingerprint, and the original status and response are stored for exact replay. Reusing a key with changed content returns 409 instead of silently reusing the earlier result.
+
+The hardest problem was getting retries right under concurrency without creating duplicate business effects. The idempotency transaction lock serializes requests using the same key; the payment path also locks by booking ID, while the database's booking ID primary key prevents a second payment row. Challenge 2 evidence shows two synchronized identical booking requests resolving to one booking, one charge, and one consumed seat. A later replay returns the same booking response, while a changed payload conflicts.
+
+I would change the demo's indefinite idempotency retention before production: define a documented retention window and cleanup policy, and integrate a payment provider's own idempotency key plus reconciliation. Local database protection alone cannot guarantee exactly-once effects across an external payment boundary.
 
 ### Omkar
 I built the Notification Service: a mock delivery provider with its own `notification`
@@ -83,7 +87,7 @@ which tools were used and for what, and confirms they can explain every mechanis
 |---|---|
 | Angshuman | _TODO_ |
 | Siva Aravindan | _TODO_ |
-| Susheel Kumaraswamy S | _TODO_ |
+| Susheel Kumaraswamy S | GitHub Copilot assisted with drafting this reflection and checking it against the Payment Service and Challenge 2 evidence. I reviewed the description and can explain the mechanisms submitted. |
 | Omkar | Claude (Anthropic) assisted with planning the team split, demo speaking points, a pre-submission review of `main`, the Compose health-check/restart change, and drafting my reflection. I designed and wrote the Notification Service, BR6 enforcement and its tests, reviewed every AI-suggested change, and can explain each mechanism. |
 
 ## Demo video outline (8-10 minutes)
