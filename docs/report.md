@@ -4,6 +4,22 @@ Scalable Services SEZG583, MTech, Assignment 1. Optional challenge: 3C Saga with
 Team members and repository details are listed in the submission appendix; the demo video link is pending recording.
 This report describes implemented behavior, not a production certification.
 
+## Contents
+
+| Section | Topic |
+|---|---|
+| 1 | Problem and Scope |
+| 2 | Service Decomposition |
+| 3 | Architecture |
+| 4 | Data Design |
+| 5 | API Design |
+| 6 | Engineering Challenges |
+| 7 | Testing |
+| 8 | Design Decisions and Trade-offs |
+| 9 | Limitations and Future Work |
+| 10 | Team and Submission Links |
+| Appendix | Contributions, Reflection and AI Use |
+
 ## 1. Problem and Scope
 
 Seatline books general-admission places for small events. It is deliberately not a CRUD
