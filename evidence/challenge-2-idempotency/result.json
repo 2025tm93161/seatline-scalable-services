@@ -1,14 +1,14 @@
 {
-  "timestamp": "2026-10-22T18:13:16.910390+00:00",
+  "timestamp": "2026-11-02T14:07:27.031482+00:00",
   "command": "python scripts/challenges.py idempotency",
   "claim": "Concurrent and sequential replay produce one booking, hold and charge; changed payload rejected",
-  "event_id": "evidence-20f6a5fa-3295-4657-a12b-2e17a43edcd1",
-  "key": "54da9556-b498-4b91-9803-4ac7b83bfbf8",
+  "event_id": "evidence-169a9a78-bbd7-4029-9f59-3db3cf186c94",
+  "key": "2bd806d4-1f48-4428-81ac-2e621efc18d5",
   "simultaneous": [
     {
       "status": 201,
       "body": {
-        "id": "2ca916eb-3818-5941-af9c-270327d98f75",
+        "id": "9e5b54a0-4474-581b-985d-f989bf383248",
         "state": "CONFIRMED",
         "amount_cents": 2500,
         "reason": ""
@@ -18,7 +18,7 @@
     {
       "status": 201,
       "body": {
-        "id": "2ca916eb-3818-5941-af9c-270327d98f75",
+        "id": "9e5b54a0-4474-581b-985d-f989bf383248",
         "state": "CONFIRMED",
         "amount_cents": 2500,
         "reason": ""
@@ -29,7 +29,7 @@
   "repeated": {
     "status": 201,
     "body": {
-      "id": "2ca916eb-3818-5941-af9c-270327d98f75",
+      "id": "9e5b54a0-4474-581b-985d-f989bf383248",
       "state": "CONFIRMED",
       "amount_cents": 2500,
       "reason": ""
@@ -49,14 +49,14 @@
   "payment": {
     "status": 200,
     "body": {
-      "booking_id": "2ca916eb-3818-5941-af9c-270327d98f75",
+      "booking_id": "9e5b54a0-4474-581b-985d-f989bf383248",
       "amount_cents": 2500,
       "state": "CHARGED"
     },
     "replayed": "false"
   },
   "final_inventory": {
-    "id": "evidence-20f6a5fa-3295-4657-a12b-2e17a43edcd1",
+    "id": "evidence-169a9a78-bbd7-4029-9f59-3db3cf186c94",
     "name": "Challenge fixture",
     "capacity": 5,
     "available": 4,

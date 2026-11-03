@@ -1,7 +1,7 @@
 # Seatline: Design and Technical Report
 
 Scalable Services SEZG583, MTech, Assignment 1. Optional challenge: 3C Saga with compensation.
-Team names, institute identifiers, repository and video links: complete the submission appendix.
+Team members and repository details are listed in the submission appendix; the demo video link is pending recording.
 This report describes implemented behavior, not a production certification.
 
 ## 1. Problem and Scope
@@ -240,13 +240,22 @@ Dockerfile and Compose prepare Assignment 2, with a non-root application user an
 environment-based endpoints. Minikube deployment, Kubernetes Secrets, readiness/liveness
 split, production migrations, metrics, and scheduled recovery remain future work.
 
-## 10. Submission Links
+## 10. Team and Submission Links
 
-GitHub repository: TO BE COMPLETED BY TEAM.
-Google Drive folder containing video and other documents: TO BE COMPLETED BY TEAM.
-Demo video (8-10 minutes, every member speaking): TO BE RECORDED AND LINKED.
-Do not submit placeholder links. docs/submission.md contains the speaking outline,
-contribution table, individual reflection prompts and AI-use declaration.
+| Student name | Student ID |
+|---|---|
+| Susheel Kumaraswamy S | 2025TM93096 |
+| BANDGAR OMKAR SUDHAKAR SHEETAL | 2025TM93075 |
+| ANGSHUMAN PAL | 2025TM93161 |
+| M SIVA ARAVINDAN | 2025TM93154 |
+
+| Resource | Link |
+|---|---|
+| GitHub repository | https://github.com/2025tm93161/seatline-scalable-services |
+| Demo video (8-10 minutes, every member speaking) | Pending recording/link |
+
+docs/submission.md contains the speaking outline, contribution table, individual
+reflection prompts and AI-use declaration.
 
 ## Appendix: Contributions, Reflection and AI Use
 

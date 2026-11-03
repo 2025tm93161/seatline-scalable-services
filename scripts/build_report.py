@@ -13,6 +13,9 @@ ROOT = Path(__file__).resolve().parents[1]
 GREEN = colors.HexColor("#216b4e")
 INK = colors.HexColor("#192c26")
 LIGHT = colors.HexColor("#e8f1e9")
+PAGE_SIZE = (595.28, 841.89)
+LEFT_MARGIN = 45
+RIGHT_MARGIN = 45
 
 
 def box(drawing, x, y, width, height, title, lines=()):
@@ -124,7 +127,12 @@ def main():
         text_value = " ".join(block.splitlines())
         if block.startswith("|"):
             rows = [[Paragraph(escape(cell.strip()), styles["ReportBody"]) for cell in line.strip().strip("|").split("|")] for line in block.splitlines() if not line.startswith("|---")]
-            table = Table(rows, colWidths=[62, 48, 175, 220], repeatRows=1, hAlign="LEFT")
+            if len(rows[0]) == 2:
+                content_width = PAGE_SIZE[0] - LEFT_MARGIN - RIGHT_MARGIN
+                column_widths = [content_width * 0.45, content_width * 0.55]
+            else:
+                column_widths = [62, 48, 175, 220]
+            table = Table(rows, colWidths=column_widths, repeatRows=1, hAlign="LEFT")
             table.setStyle(TableStyle([("BACKGROUND", (0, 0), (-1, 0), LIGHT), ("GRID", (0, 0), (-1, -1), .3, colors.HexColor("#bdc9c1")), ("VALIGN", (0, 0), (-1, -1), "TOP"), ("LEFTPADDING", (0, 0), (-1, -1), 5), ("RIGHTPADDING", (0, 0), (-1, -1), 5)]))
             story.extend([table, Spacer(1, 12)])
         elif text_value.startswith("# "):
@@ -147,7 +155,7 @@ def main():
         canvas.drawRightString(550, 25, str(document.page))
 
     target = ROOT / "docs" / "report.pdf"
-    document = SimpleDocTemplate(str(target), pagesize=(595.28, 841.89), rightMargin=45, leftMargin=45, topMargin=40, bottomMargin=42, title="Seatline: Design and Technical Report", author="Team details pending")
+    document = SimpleDocTemplate(str(target), pagesize=PAGE_SIZE, rightMargin=RIGHT_MARGIN, leftMargin=LEFT_MARGIN, topMargin=40, bottomMargin=42, title="Seatline: Design and Technical Report", author="Team details pending")
     document.build(story, onFirstPage=footer, onLaterPages=footer)
     assert document.page <= 15, f"Report has {document.page} pages; shorten it before submission"
     print(f"Generated {target.relative_to(ROOT)} ({document.page} pages, within the 15-page limit)")
